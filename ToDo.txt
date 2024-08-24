@@ -1,0 +1,8 @@
+- Markierung von unterschieden
+- mehrere Eingabefelder
+- formatierung von langen titelnamen
+- relevante informationen anzeigen
+- richtiges csv format 
+- verlauf
+- titel ändern
+- verschiedene personen bekommen
