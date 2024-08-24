@@ -150,7 +150,7 @@ def ToCsv(df):
     #writer.writerow(df.values())
     print("Added to csv")
     #print(df)
-    dataframe.to_csv("SRU_Titel.csv", mode = "a", index = False,header=False)
+    dataframe.to_csv("test.csv", mode = "a", index = False,header=False)
 
 
     
