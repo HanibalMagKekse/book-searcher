@@ -132,24 +132,25 @@ myButtons.grid(row=2,column=1)
 #e.insert(0, "Enter:")
 def ToCsv(df):
     
-
-    counter = 0
-    list = ["CREATOR","TITLE","DATE","PUBLISHER","ISBN","TYPE","CONTRIBUTOR"]
-    meta_dict = {"CREATOR":"CREATOR", "TITLE":"TITLE", "DATE":"DATE", "PUBLISHER":"PUBLISHER", "ISBN":"ISBN", "TYPE":"TYPE","CONTRIBUTOR":"CONTRIBUTOR"}
-    #print(df)
-    for info in df:
-        #print(type(info))
-        #print(meta_dict[list[counter]])
-        meta_dict[list[counter]] = info
-        counter += 1
+    new_meta_dict = {"Bestellnr":"","Autor/ Herausgeber":"","Titel":"","Verlag":"","Einband":"","Format":"","Gewicht in g":"","Auflage":"","Jahr":"","Empty1":"","Ort":"","Zustand (1-4)":"","Sprachennr.":"","Sprache":"","ISBN":"","EAN":"","Seitenzahl/Umfang":"","Ihr Preis in �":"","zvab-Preis":"","Zustand-zvab":"","Illustrator":"","�bersetzer":"","Vor- oder Nachwort":"","Nachwort":"","weitere Mitwirkende":"","Untertitel":"","Originaltitel":"","aus der Reihe":"","Band":"","Schlagworte":"","Beschreibung":"","Zustandsbeschreibung":"","Lieferungsnr":"","Lieferant":"","Einkaufspreis in �":"","Aufgenommen am:":"","Menge":"","3860400644":"","Zustand-amazon":"","Standort":"","Kommission":"","Sparten-Nr.":"","Spartenbezeichnung":"","Einkaufsdatum":"","MwSt.":"","ebay":"","Notizen":"","Bild":"","alte Bestellnummer":"","ASIN":"","versandkennziffer":"","H�he":"","Breite":"","Tiefe":"","Suche":"","ebay-ID":"","Titel-Autor-anzahl":""}
+    meta_dict = {"CREATOR":"", "TITLE":"", "DATE":"", "PUBLISHER":"", "ISBN":"", "TYPE":""}#,"CONTRIBUTOR":"CONTRIBUTOR"}
+   
+    df = df.to_dict()
+    for info in meta_dict:
+        print(info)
+        for thing in df:
+            try:
+                if meta_dict[info] == meta_dict[thing]:
+                    meta_dict[info] = df[thing]
+                    print("Vergleich klappt")
+            except:
+                pass
     
     dataframe = pd.DataFrame([meta_dict])
-    #print(df.loc[0])
-    #myFile = open("SRU_Titel.csv", "a")
-    #writer = csv.writer(myFile)
-    #writer.writerow(df.values())
+   
+
     print("Added to csv")
-    #print(df)
+    
     dataframe.to_csv("test.csv", mode = "a", index = False,header=False)
 
 
