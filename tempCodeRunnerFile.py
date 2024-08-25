@@ -1,6 +1,2 @@
-import requests
-from bs4 import BeautifulSoup as soup
-import unicodedata
-from lxml import etree
-import pandas as pd
-from tkinter import *
+                    print(new_meta_dict[info])
+                    print(df[thing])

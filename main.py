@@ -136,17 +136,18 @@ def ToCsv(df):
     meta_dict = {"CREATOR":"", "TITLE":"", "DATE":"", "PUBLISHER":"", "ISBN":"", "TYPE":""}#,"CONTRIBUTOR":"CONTRIBUTOR"}
    
     df = df.to_dict()
-    for info in meta_dict:
-        print(info)
+    for info in new_meta_dict:
         for thing in df:
+            print(thing)
             try:
-                if meta_dict[info] == meta_dict[thing]:
-                    meta_dict[info] = df[thing]
+                if info == thing:
+                    new_meta_dict[info] = df[thing]
+                    
                     print("Vergleich klappt")
             except:
                 pass
     
-    dataframe = pd.DataFrame([meta_dict])
+    dataframe = pd.DataFrame([new_meta_dict])
    
 
     print("Added to csv")
@@ -254,7 +255,7 @@ def parse_record_dc(record):
         ids = "N/A"
         
         
-    meta_dict = {"CREATOR":creator, "TITLE":titel, "DATE":date, "PUBLISHER":publ, "ISBN":ids, "TYPE":type, "CONTRIBUTOR":contributors}
+    meta_dict = {"Autor/ Herausgeber":creator, "TITLE":titel, "DATE":date, "PUBLISHER":publ, "ISBN":ids, "TYPE":type, "CONTRIBUTOR":contributors}
     
     return meta_dict
 
