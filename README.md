@@ -12,6 +12,9 @@ Tutorial zur Abfrage:
 https://www.youtube.com/watch?v=bAenBAfu1po&list=PLiOn8zIQG_S0k5Auvn28Q_Emqtz7ewx40&index=6
 https://www.dnb.de/DE/Professionell/Services/WissenschaftundForschung/DNBLab/dnblabTutorials.html?nn=849628
 
+Kürzel für die Abfrage:
+https://services.dnb.de/sru/dnb?operation=explain&version=1.1
+
 ToDo (sortiert nach Relevanz):
 
 - richtiges csv format
