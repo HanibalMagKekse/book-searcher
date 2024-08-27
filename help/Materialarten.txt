@@ -1,0 +1,36 @@
+Materialarten:
+
+    articles
+    manuscript
+    biographicaldoc
+    letters
+    bequest
+    collections
+    books
+    brailles
+    cards
+    discs
+    dissertations
+    online
+    films
+    microfiches
+    multimedia
+    music
+    scores
+    serials
+    papers
+    image
+    flyer
+    issues
+    websites
+    persons
+    subjects
+    corperations
+    works
+    events
+    geographics
+    publishermusic
+    labels
+    serialsmusic
+    genres
+    classifications
