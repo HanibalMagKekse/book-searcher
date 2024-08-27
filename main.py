@@ -13,8 +13,14 @@ def InputEntered():
         book.destroy()
     for button in buttons:
         button.destroy()
+        
     input_isbn = isbn.get()
     input_autor = autor.get()
+    input_verlag = verlag.get()
+    input_erscheinungsjahr = erscheinungsjahr.get()
+    input_sprachencode = sprachencode.get()
+    input_format = formate.get()
+
     #myLabel = Label(root,text="hello")
     #myLabel.grid()
     try:
@@ -29,21 +35,29 @@ def InputEntered():
             records = dnb_sru(f'isbn={input_isbn}')
     elif type_input == "titel":
             records = dnb_sru(f'tit={input_isbn}')
-
+ 
     #records = dnb_sru('tit=Faust I and location=onlinefree')
-    if len(input_autor) != 0 and len(input_isbn) != 0:
-        if type_input == "isbn":
-            records = dnb_sru(f'isbn={input_isbn} and creator={input_autor}')
-        elif type_input == "titel":
-            records = dnb_sru(f'tit={input_isbn} and creator={input_autor}')
-    elif len(input_isbn) != 0:
-        if type_input == "isbn":
-            records = dnb_sru(f'isbn={input_isbn}')
-        elif type_input == "titel":
-            records = dnb_sru(f'tit={input_isbn}')
-    elif len(input_autor) != 0:
-        print("Check")
-        records = dnb_sru(f'creator={input_autor}')
+
+    
+    # build query string and search
+    if type_input == "isbn":
+        tisbn = "isbn"
+    elif type_input == "titel":
+        tisbn = "tit"
+
+    quInputs = [input_isbn, input_autor, input_verlag, input_erscheinungsjahr, input_sprachencode, input_format] 
+    quLabels = [tisbn, "atr", "vlg", "jhr", "spr", "mat"]
+    queryString = f""
+
+    for label, value in enumerate(quInputs):
+        if len(value) != 0:
+            if queryString == "":
+                queryString += f"{quLabels[label]}={value}"
+            else:
+                queryString += f" and {quLabels[label]}={value}"
+
+    print(queryString)
+    records = dnb_sru(queryString)
         
     output = [parse_record_dc(record) for record in records]
 
@@ -109,25 +123,43 @@ def InputEntered():
     print(len(records), 'Ergebnisse')
 
 root = Tk()
-root.geometry("500x500")
+root.geometry("1000x500")
 
 label_isbn = Label(root,text="ISBN / Titel")
 label_isbn.grid(row=0,column=0)
-
 isbn = Entry(root)
 isbn.grid(row=1,column=0)
 
 label_autor = Label(root,text="Autor")
 label_autor.grid(row=0,column=1)
-
 autor = Entry(root)
 autor.grid(row=1,column=1)
+
+label_verlag = Label(root,text="Verlag")
+label_verlag.grid(row=0,column=2)
+verlag = Entry(root)
+verlag.grid(row=1,column=2)
+
+label_erscheinungsjahr = Label(root,text="Erscheinungsjahr")
+label_erscheinungsjahr.grid(row=0,column=3)
+erscheinungsjahr = Entry(root)
+erscheinungsjahr.grid(row=1,column=3)
+
+label_sprachencode = Label(root,text="Sprachencode")
+label_sprachencode.grid(row=0,column=4)
+sprachencode = Entry(root)
+sprachencode.grid(row=1,column=4)
+
+label_format = Label(root,text="Materialart")
+label_format.grid(row=0,column=5)
+formate = Entry(root)
+formate.grid(row=1,column=5)
 
 myLabels = []
 buttons = []
 
 myButtons = Button(root, text="Enter", command=InputEntered)
-myButtons.grid(row=2,column=1)
+myButtons.grid(row=2,column=2)
 
 #e.insert(0, "Enter:")
 def ToCsv(df):
