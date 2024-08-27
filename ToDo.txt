@@ -6,3 +6,4 @@
 - verlauf
 - titel ändern
 - verschiedene personen bekommen
+---- mehr Einträge anzeigen können (z.B. durch horizontales Scrollen) ------
