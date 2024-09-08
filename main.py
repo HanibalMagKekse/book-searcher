@@ -9,6 +9,8 @@ from tkinter import *
 infos = list = ["IDN","CREATOR","TITLE","DATE","PUBLISHER","URN","ISBN","TYPE","CONTRIBUTOR"]
 
 def InputEntered():
+
+    # Entfernt bei neuer Eingabe alte Buttons und Labels
     for book in myLabels:
         book.destroy()
     for button in buttons:
@@ -21,8 +23,7 @@ def InputEntered():
     input_sprachencode = sprachencode.get()
     input_format = formate.get()
 
-    #myLabel = Label(root,text="hello")
-    #myLabel.grid()
+
     try:
         int(input_isbn[0])
         type_input = "isbn"
@@ -35,8 +36,6 @@ def InputEntered():
             records = dnb_sru(f'isbn={input_isbn}')
     elif type_input == "titel":
             records = dnb_sru(f'tit={input_isbn}')
- 
-    #records = dnb_sru('tit=Faust I and location=onlinefree')
 
     
     # build query string and search
@@ -61,13 +60,9 @@ def InputEntered():
         
     output = [parse_record_dc(record) for record in records]
 
-    #print(output)
+    
     df = pd.DataFrame(output)
-    #for i in df.loc[1]:
-
-     #   print(i)
-
-    #df.loc[spalte].to_frame()
+    
     
     spalte = 0
     reihe = 3
@@ -77,24 +72,10 @@ def InputEntered():
     elif len(records) == 1 and instantCsv:
        df.to_csv("SRU_Titel.csv", mode = "a", index = False,header=False)
     else:
-        """
-        for record in output:
-            reihe = 2
-            for info in record:
-                #print(record[info])
-                label = Label(root,bg="red",text=info + ": " + record[info])
-                label.grid(row=reihe,column=spalte,padx=5,pady=1)
-                myLabels.append(label)
-                reihe += 1
-            button = Button(root, text="Confirm", command=lambda spalte=spalte: ToCsv(df.loc[spalte]))
-            button.grid(row=reihe,column=spalte,padx=20,pady=5)
-            buttons.append(button)
-            spalte = spalte + 1
-        """
+
         for record in output:
             reihe = 3
             for info in record:
-                #print(record[info])
                 
                 string = record[info]
                 if info == "CONTRIBUTOR":
@@ -109,8 +90,6 @@ def InputEntered():
                         if char % 50 == 0:
                             string = string[:50*row_counter] + "\n" + string[50*row_counter:]
                             row_counter += 1
-                    #string = string[:int(len(string)/2)] + "\n" + string[int(len(string)/2):]
-                    #firstpart, secondpart = string[:len(string)/2], string[len(string)/2:]
                 label = Label(root,text=info + ": " + string)
                 label.grid(row=reihe,column=spalte,padx=5,pady=1)
                 myLabels.append(label)
@@ -161,16 +140,13 @@ buttons = []
 myButtons = Button(root, text="Enter", command=InputEntered)
 myButtons.grid(row=2,column=2)
 
-#e.insert(0, "Enter:")
 def ToCsv(df):
-    
+    #                                                                                            Größe
     new_meta_dict = {"Bestellnr":"","Autor/ Herausgeber":"","Titel":"","Verlag":"","Einband":"","Format":"","Gewicht in g":"","Auflage":"","Jahr":"","Empty1":"","Ort":"","Zustand (1-4)":"","Sprachennr.":"","Sprache":"","ISBN":"","EAN":"","Seitenzahl/Umfang":"","Ihr Preis in �":"","zvab-Preis":"","Zustand-zvab":"","Illustrator":"","�bersetzer":"","Vor- oder Nachwort":"","Nachwort":"","weitere Mitwirkende":"","Untertitel":"","Originaltitel":"","aus der Reihe":"","Band":"","Schlagworte":"","Beschreibung":"","Zustandsbeschreibung":"","Lieferungsnr":"","Lieferant":"","Einkaufspreis in �":"","Aufgenommen am:":"","Menge":"","3860400644":"","Zustand-amazon":"","Standort":"","Kommission":"","Sparten-Nr.":"","Spartenbezeichnung":"","Einkaufsdatum":"","MwSt.":"","ebay":"","Notizen":"","Bild":"","alte Bestellnummer":"","ASIN":"","versandkennziffer":"","H�he":"","Breite":"","Tiefe":"","Suche":"","ebay-ID":"","Titel-Autor-anzahl":""}
-    meta_dict = {"CREATOR":"", "TITLE":"", "DATE":"", "PUBLISHER":"", "ISBN":"", "TYPE":""}#,"CONTRIBUTOR":"CONTRIBUTOR"}
    
     df = df.to_dict()
     for info in new_meta_dict:
         for thing in df:
-            print(thing)
             try:
                 if info == thing:
                     new_meta_dict[info] = df[thing]
@@ -286,8 +262,8 @@ def parse_record_dc(record):
     except:
         ids = "N/A"
         
-        
-    meta_dict = {"Autor/ Herausgeber":creator, "TITLE":titel, "DATE":date, "PUBLISHER":publ, "ISBN":ids, "TYPE":type, "CONTRIBUTOR":contributors}
+    
+    meta_dict = {"Autor/ Herausgeber":creator, "Titel":titel, "Jahr":date, "Verlag":publ, "ISBN":ids, "TYPE":type, "CONTRIBUTOR":contributors}
     
     return meta_dict
 
