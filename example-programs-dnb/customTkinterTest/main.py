@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup as soup
 import unicodedata
 from lxml import etree
 import pandas as pd
-from customTkinter import *
+from customtkinter import *
 #import csv
 
 infos = list = ["IDN","CREATOR","TITLE","DATE","PUBLISHER","URN","ISBN","TYPE","CONTRIBUTOR"]
@@ -94,7 +94,7 @@ def InputEntered():
                 label.grid(row=reihe,column=spalte,padx=5,pady=1)
                 myLabels.append(label)
                 reihe += 1
-            button = Button(root, text="Confirm", command=lambda spalte=spalte: ToCsv(df.loc[spalte]))
+            button = CTkButton(root, text="Confirm", command=lambda spalte=spalte: ToCsv(df.loc[spalte]))
             button.grid(row=reihe,column=spalte,padx=20,pady=5)
             buttons.append(button)
             spalte = spalte + 1
@@ -105,40 +105,40 @@ root = CTk()
 root.geometry("1000x500")
 
 label_isbn = CTkLabel(root,text="ISBN / Titel")
-label_isbn.grid(row=0,column=0)
+label_isbn.grid(row=0,column=0, padx=10)
 isbn = CTkEntry(root)
-isbn.grid(row=1,column=0)
+isbn.grid(row=1,column=0, padx=10)
 
 label_autor = CTkLabel(root,text="Autor")
-label_autor.grid(row=0,column=1)
+label_autor.grid(row=0,column=1, padx=10)
 autor = CTkEntry(root)
-autor.grid(row=1,column=1)
+autor.grid(row=1,column=1, padx=10)
 
 label_verlag = CTkLabel(root,text="Verlag")
-label_verlag.grid(row=0,column=2)
+label_verlag.grid(row=0,column=2, padx=10)
 verlag = CTkEntry(root)
-verlag.grid(row=1,column=2)
+verlag.grid(row=1,column=2, padx=10)
 
 label_erscheinungsjahr = CTkLabel(root,text="Erscheinungsjahr")
-label_erscheinungsjahr.grid(row=0,column=3)
+label_erscheinungsjahr.grid(row=0,column=3, padx=10)
 erscheinungsjahr = CTkEntry(root)
-erscheinungsjahr.grid(row=1,column=3)
+erscheinungsjahr.grid(row=1,column=3, padx=10)
 
 label_sprachencode = CTkLabel(root,text="Sprachencode")
-label_sprachencode.grid(row=0,column=4)
+label_sprachencode.grid(row=0,column=4, padx=10)
 sprachencode = CTkEntry(root)
-sprachencode.grid(row=1,column=4)
+sprachencode.grid(row=1,column=4, padx=10)
 
 label_format = CTkLabel(root,text="Materialart")
-label_format.grid(row=0,column=5)
+label_format.grid(row=0,column=5, padx=10)
 formate = CTkEntry(root)
-formate.grid(row=1,column=5)
+formate.grid(row=1,column=5, padx=10)
 
 myLabels = []
 buttons = []
 
 myButtons = CTkButton(root, text="Enter", command=InputEntered)
-myButtons.grid(row=2,column=2)
+myButtons.grid(row=2,column=2, pady=20, sticky="ew", columnspan=2)
 
 def ToCsv(df):
     #                                                                                            Größe
