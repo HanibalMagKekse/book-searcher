@@ -105,11 +105,13 @@ def InputEntered():
 root = CTk()
 root.geometry("1000x500")
 
+#test.pack(side=tk.BOTTOM)
+
 frame_inputs = CTkFrame(master=root)
-frame_inputs.grid(row=0,column=0, padx=10)
+frame_inputs.pack(anchor = NW)
 
 frame_results = CTkFrame(master=root)
-frame_results.grid(row=1,column=0, padx=10, pady=10)
+frame_results.pack(side = LEFT)
 
 
 label_isbn = CTkLabel(master=frame_inputs,text="ISBN / Titel")
