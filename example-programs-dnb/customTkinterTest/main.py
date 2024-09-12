@@ -59,8 +59,9 @@ def InputEntered(event = None):
     records = dnb_sru(queryString)
         
     output = [parse_record_dc(record) for record in records]
+    print(output)
 
-    
+    formated_output = format_data_for_csv(output)
     df = pd.DataFrame(output)
     
     
@@ -84,11 +85,11 @@ def InputEntered(event = None):
                         string = "N/A"
                     else:
                         string = "".join(string)
-                if len(string) > 50:
+                if len(string) > 40:
                     row_counter = 1
                     for char in range(1, len(string)):
-                        if char % 50 == 0:
-                            string = string[:50*row_counter] + "\n" + string[50*row_counter:]
+                        if char % 40 == 0:
+                            string = string[:40*row_counter] + "\n" + string[40*row_counter:]
                             row_counter += 1
                 label = CTkLabel(master=frame_results,text=info + ": " + string)
                 label.grid(row=reihe,column=spalte,padx=5,pady=1)
@@ -153,6 +154,15 @@ myButtons = CTkButton(master=frame_inputs, text="Enter")
 # binds the button press to InputEntered
 myButtons.bind('<Button-1>', InputEntered)
 myButtons.grid(row=2,column=2, pady=20, sticky="ew", columnspan=2)
+
+def format_data_for_csv(data):
+    # should filter different groups out of contributors
+
+    for object in data:
+
+        for person in object["CONTRIBUTOR"]:
+            pass
+    return data
 
 def ToCsv(df):
     #                                                                                            Größe
@@ -270,14 +280,14 @@ def parse_record_dc(record):
         type = "N/A"
         
     #identifier
-    ids = xml.xpath('.//dc:identifier[@xsi:type="tel:ISBN"]', namespaces=ns)
+    isbn = xml.xpath('.//dc:identifier[@xsi:type="tel:ISBN"]', namespaces=ns)
     try:
-        ids = ids[0].text
+        isbn = isbn[0].text
     except:
-        ids = "N/A"
+        isbn = "N/A"
         
     
-    meta_dict = {"Autor/ Herausgeber":creator, "Titel":titel, "Jahr":date, "Verlag":publ, "ISBN":ids, "TYPE":type, "CONTRIBUTOR":contributors}
+    meta_dict = {"Autor/ Herausgeber":creator, "Titel":titel, "Jahr":date, "Verlag":publ, "ISBN":isbn, "TYPE":type, "CONTRIBUTOR":contributors}
     
     return meta_dict
 

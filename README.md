@@ -15,6 +15,10 @@ https://www.dnb.de/DE/Professionell/Services/WissenschaftundForschung/DNBLab/dnb
 Kürzel für die Abfrage:
 https://services.dnb.de/sru/dnb?operation=explain&version=1.1
 
+mögliche Abfrage Daten:
+
+https://www.dnb.de/DE/Professionell/Metadatendienste/Exportformate/DNB-Casual/dnbCasual_node.html#doc186950bodyText1
+
 ToDo (sortiert nach Relevanz):
 
 - richtiges csv format

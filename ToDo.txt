@@ -1,9 +1,9 @@
-- Markierung von unterschieden
-- mehrere Eingabefelder
-- formatierung von langen titelnamen
-- relevante informationen anzeigen
-- richtiges csv format 
-- verlauf
-- titel ändern
-- verschiedene personen bekommen
+---- Markierung von unterschieden bei fast gleichen Einträgen ----
+---- formatierung von langen titelnamen ----
+---- relevante informationen zuerst/besser/markiert anzeigen ----
+---- richtiges csv format ----
+---- möglichst viele infos vom DNB nutzen ----
+---- verlauf der hinzugefügte bücher verfolgt----
+---- titel ändern ----
+---- herausfiltern von Verfasser, Illustratoren, Nachwortschreiber, etc. ----
 ---- mehr Einträge anzeigen können (z.B. durch horizontales Scrollen) ------
