@@ -8,7 +8,7 @@ from customtkinter import *
 
 infos = list = ["IDN","CREATOR","TITLE","DATE","PUBLISHER","URN","ISBN","TYPE","CONTRIBUTOR"]
 
-def InputEntered():
+def InputEntered(event = None):
 
     # Entfernt bei neuer Eingabe alte Buttons und Labels
     for book in myLabels:
@@ -105,7 +105,6 @@ def InputEntered():
 root = CTk()
 root.geometry("1000x500")
 
-#test.pack(side=tk.BOTTOM)
 
 frame_inputs = CTkFrame(master=root)
 frame_inputs.pack(anchor = NW)
@@ -147,7 +146,12 @@ formate.grid(row=1,column=5, padx=10)
 myLabels = []
 buttons = []
 
-myButtons = CTkButton(master=frame_inputs, text="Enter", command=InputEntered)
+# binds the return key to InputEntered
+root.bind('<Return>', InputEntered)
+myButtons = CTkButton(master=frame_inputs, text="Enter")
+
+# binds the button press to InputEntered
+myButtons.bind('<Button-1>', InputEntered)
 myButtons.grid(row=2,column=2, pady=20, sticky="ew", columnspan=2)
 
 def ToCsv(df):
