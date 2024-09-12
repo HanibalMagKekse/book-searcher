@@ -65,7 +65,7 @@ def InputEntered():
     
     
     spalte = 0
-    reihe = 3
+    reihe = 0
     instantCsv = False
     if len(records) == 0:
         print("Keine Ergebnisse")
@@ -74,7 +74,7 @@ def InputEntered():
     else:
 
         for record in output:
-            reihe = 3
+            reihe = 0
             for info in record:
                 
                 string = record[info]
@@ -90,11 +90,12 @@ def InputEntered():
                         if char % 50 == 0:
                             string = string[:50*row_counter] + "\n" + string[50*row_counter:]
                             row_counter += 1
-                label = CTkLabel(root,text=info + ": " + string)
+                label = CTkLabel(master=frame_results,text=info + ": " + string)
                 label.grid(row=reihe,column=spalte,padx=5,pady=1)
                 myLabels.append(label)
                 reihe += 1
-            button = CTkButton(root, text="Confirm", command=lambda spalte=spalte: ToCsv(df.loc[spalte]))
+
+            button = CTkButton(master=frame_results, text="Confirm", command=lambda spalte=spalte: ToCsv(df.loc[spalte]))
             button.grid(row=reihe,column=spalte,padx=20,pady=5)
             buttons.append(button)
             spalte = spalte + 1
@@ -104,40 +105,47 @@ def InputEntered():
 root = CTk()
 root.geometry("1000x500")
 
-label_isbn = CTkLabel(root,text="ISBN / Titel")
+frame_inputs = CTkFrame(master=root)
+frame_inputs.grid(row=0,column=0, padx=10)
+
+frame_results = CTkFrame(master=root)
+frame_results.grid(row=1,column=0, padx=10, pady=10)
+
+
+label_isbn = CTkLabel(master=frame_inputs,text="ISBN / Titel")
 label_isbn.grid(row=0,column=0, padx=10)
-isbn = CTkEntry(root)
+isbn = CTkEntry(master=frame_inputs)
 isbn.grid(row=1,column=0, padx=10)
 
-label_autor = CTkLabel(root,text="Autor")
+label_autor = CTkLabel(master=frame_inputs,text="Autor")
 label_autor.grid(row=0,column=1, padx=10)
-autor = CTkEntry(root)
+autor = CTkEntry(master=frame_inputs)
 autor.grid(row=1,column=1, padx=10)
 
-label_verlag = CTkLabel(root,text="Verlag")
+label_verlag = CTkLabel(master=frame_inputs,text="Verlag")
 label_verlag.grid(row=0,column=2, padx=10)
-verlag = CTkEntry(root)
+verlag = CTkEntry(master=frame_inputs)
 verlag.grid(row=1,column=2, padx=10)
 
-label_erscheinungsjahr = CTkLabel(root,text="Erscheinungsjahr")
+label_erscheinungsjahr = CTkLabel(master=frame_inputs,text="Erscheinungsjahr")
 label_erscheinungsjahr.grid(row=0,column=3, padx=10)
-erscheinungsjahr = CTkEntry(root)
+erscheinungsjahr = CTkEntry(master=frame_inputs)
 erscheinungsjahr.grid(row=1,column=3, padx=10)
 
-label_sprachencode = CTkLabel(root,text="Sprachencode")
+label_sprachencode = CTkLabel(master=frame_inputs,text="Sprachencode")
 label_sprachencode.grid(row=0,column=4, padx=10)
-sprachencode = CTkEntry(root)
+sprachencode = CTkEntry(master=frame_inputs)
 sprachencode.grid(row=1,column=4, padx=10)
 
-label_format = CTkLabel(root,text="Materialart")
+label_format = CTkLabel(master=frame_inputs,text="Materialart")
 label_format.grid(row=0,column=5, padx=10)
-formate = CTkEntry(root)
+formate = CTkEntry(master=frame_inputs)
 formate.grid(row=1,column=5, padx=10)
 
 myLabels = []
 buttons = []
 
-myButtons = CTkButton(root, text="Enter", command=InputEntered)
+myButtons = CTkButton(master=frame_inputs, text="Enter", command=InputEntered)
 myButtons.grid(row=2,column=2, pady=20, sticky="ew", columnspan=2)
 
 def ToCsv(df):
