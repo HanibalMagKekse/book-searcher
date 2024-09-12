@@ -61,7 +61,7 @@ def InputEntered(event = None):
     output = [parse_record_dc(record) for record in records]
     print(output)
 
-    formated_output = format_data_for_csv(output)
+    #formated_output = format_data_for_csv(output)
     df = pd.DataFrame(output)
     
     
@@ -157,11 +157,19 @@ myButtons.grid(row=2,column=2, pady=20, sticky="ew", columnspan=2)
 
 def format_data_for_csv(data):
     # should filter different groups out of contributors
-
+    verfasser = []
+    illustrator = []
+    übersetzer = []
+    mitwirkende = []
+    vorwort = []
+    nachwort = []
     for object in data:
-
         for person in object["CONTRIBUTOR"]:
-            pass
+            if "[Verfasser]" in person:
+                new_string = person
+                new_string.replace("[Verfasser]", "")
+                
+
     return data
 
 def ToCsv(df):
