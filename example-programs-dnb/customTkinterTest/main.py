@@ -61,8 +61,8 @@ def InputEntered(event = None):
     output = [parse_record_dc(record) for record in records]
     print(output)
 
-    #formated_output = format_data_for_csv(output)
-    df = pd.DataFrame(output)
+    formated_output = format_data_for_csv(output)
+    df = pd.DataFrame(formated_output)
     
     
     spalte = 0
@@ -157,19 +157,49 @@ myButtons.grid(row=2,column=2, pady=20, sticky="ew", columnspan=2)
 
 def format_data_for_csv(data):
     # should filter different groups out of contributors
-    verfasser = []
-    illustrator = []
-    übersetzer = []
-    mitwirkende = []
-    vorwort = []
-    nachwort = []
+    object_counter = 0
+    contributors = {"verfasser": [], "herausgeber": [], "künstler": [], "illustrator": [], "übersetzer": [], "mitwirkende": [], "vorwort": [], "nachwort": [], "adressat": [], "komponist": []}
+
     for object in data:
+        contributors = {"verfasser": [], "herausgeber": [], "künstler": [], "illustrator": [], "übersetzer": [], "mitwirkende": [], "vorwort": [], "nachwort": [], "adressat": [], "komponist": []}
         for person in object["CONTRIBUTOR"]:
             if "[Verfasser]" in person:
-                new_string = person
-                new_string.replace("[Verfasser]", "")
-                
-
+                new_string = person.replace("[Verfasser]", "")
+                contributors["verfasser"].append(new_string)
+            elif "[Herausgeber]" in person:
+                new_string = person.replace("[Herausgeber]", "")
+                contributors["herausgeber"].append(new_string)
+            elif "[Künstler]" in person:
+                new_string = person.replace("[Künstler]", "")
+                contributors["künstler"].append(new_string)
+            elif "[Übersetzer]" in person:
+                new_string = person.replace("[Übersetzer]", "")
+                contributors["übersetzer"].append(new_string)
+            elif "[Adressat]" in person:
+                new_string = person.replace("[Adressat]", "")
+                contributors["adressat"].append(new_string)
+            elif "[Komponist]" in person:
+                new_string = person.replace("[Komponist]", "")
+                contributors["komponist"].append(new_string)
+            elif "[Mitwirkender]" in person:
+                new_string = person.replace("[Mitwirkender]", "")
+                contributors["mitwirkende"].append(new_string)
+            elif "[Illustrator]" in person:
+                new_string = person.replace("[Illustrator]", "")
+                contributors["illustrator"].append(new_string)
+            elif "(Vorwort)" in person:
+                new_string = person.replace("(Vorwort)", "")
+                contributors["vorwort"].append(new_string)
+            elif "(Nachwort)" in person:
+                new_string = person.replace("(Nachwort)", "")
+                contributors["nachwort"].append(new_string)
+        data[object_counter]['CONTRIBUTOR'] = str(contributors)
+        object_counter += 1
+    #for person_type in contributors:
+        #if len(person_type) == 0:
+            #del contributors[person_type]
+    
+    #data = contributors
     return data
 
 def ToCsv(df):

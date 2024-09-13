@@ -1,3 +1,4 @@
+'''
 import tkinter as tk
 
 root = tk.Tk()
@@ -14,4 +15,8 @@ button = tk.Button(root, text="click me", command=onclick)
 button.pack()
 
 root.mainloop()
+'''
 
+string = "abcdefg"
+string = string.replace("L","L")
+print(string.replace("L","L"))
