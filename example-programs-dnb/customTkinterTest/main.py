@@ -61,8 +61,9 @@ def InputEntered(event = None):
     output = [parse_record_dc(record) for record in records]
     print(output)
 
-    formated_output = format_data_for_csv(output)
-    df = pd.DataFrame(formated_output)
+
+    #formated_output = format_data_for_csv(output)
+    df = pd.DataFrame(output)
     
     
     spalte = 0
