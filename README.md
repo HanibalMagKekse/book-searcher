@@ -25,3 +25,19 @@ ToDo (sortiert nach Relevanz):
 - relevante informationen anzeigen
 - Markierung von unterschieden
 - verlauf
+
+
+Wie nutzt man den book_searcher?
+
+man braucht eine python Umgebung:
+z.B.: Visual Studio Code:   https://code.visualstudio.com/
+
+Außerdem ein paar python Bibliotheken.
+Diese installiert man in dem den passenden Befehl in Powershell eingibt:
+requests:          pip install requests
+BeautifulSoup:     pip install beautifulsoup4
+unicodedata:       pip install unicodedata2
+lxml:              pip install lxml
+pandas:            pip install pandas
+customtkinter:     pip install customtkinter
+
