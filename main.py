@@ -106,6 +106,7 @@ def InputEntered(event = None):
 
 root = CTk()
 root.geometry("1000x500")
+root.title("Booksearcher")
 
 
 frame_inputs = CTkFrame(master=root)
