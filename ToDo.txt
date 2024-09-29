@@ -1,7 +1,6 @@
 ---- Markierung von unterschieden bei fast gleichen Einträgen ----
 ---- formatierung von langen titelnamen ----
 ---- relevante informationen zuerst/besser/markiert anzeigen ----
----- richtiges csv format ----
 ---- möglichst viele infos vom DNB nutzen ----
 ---- verlauf der hinzugefügte bücher verfolgt----
 ---- titel ändern ----
