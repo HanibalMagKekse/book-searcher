@@ -4,7 +4,7 @@ import unicodedata
 from lxml import etree
 import pandas as pd
 from customtkinter import *
-#import csv
+import csv
 
 infos = list = ["IDN","CREATOR","TITLE","DATE","PUBLISHER","URN","ISBN","TYPE","CONTRIBUTOR"]
 
@@ -205,8 +205,28 @@ def format_data_for_csv(data):
     return data
 
 def ToCsv(df):
+     
+    # Open the CSV file 
+    with open('export.csv', 'r') as file: 
+        # Create a CSV reader 
+        reader = csv.reader(file) 
+         
+        # Initialize a variable to store the last row 
+        last_row = None 
+         
+        # Iterate through the rows 
+        for last_row in reader: 
+            pass  # This will keep updating last_row until the last one 
+
+    bestellnr_alt = last_row[0]
+    print(f"bestellnr: {bestellnr_alt}")
+    try:
+        bestellnr = int(bestellnr_alt) +1
+    except:
+        bestellnr = ""
+        print("bestellnr not found")
     #                                                                                            Größe
-    new_meta_dict = {"Bestellnr":"","Autor/ Herausgeber":"","Titel":"","Verlag":"","Einband":"","Format":"","Gewicht in g":"","Auflage":"","Jahr":"","Empty1":"","Ort":"","Zustand (1-4)":"","Sprachennr.":"","Sprache":"","ISBN":"","EAN":"","Seitenzahl/Umfang":"","Ihr Preis in �":"","zvab-Preis":"","Zustand-zvab":"","Illustrator":"","�bersetzer":"","Vor- oder Nachwort":"","Nachwort":"","weitere Mitwirkende":"","Untertitel":"","Originaltitel":"","aus der Reihe":"","Band":"","Schlagworte":"","Beschreibung":"","Zustandsbeschreibung":"","Lieferungsnr":"","Lieferant":"","Einkaufspreis in �":"","Aufgenommen am:":"","Menge":"","3860400644":"","Zustand-amazon":"","Standort":"","Kommission":"","Sparten-Nr.":"","Spartenbezeichnung":"","Einkaufsdatum":"","MwSt.":"","ebay":"","Notizen":"","Bild":"","alte Bestellnummer":"","ASIN":"","versandkennziffer":"","H�he":"","Breite":"","Tiefe":"","Suche":"","ebay-ID":"","Titel-Autor-anzahl":""}
+    new_meta_dict = {"Bestellnr":bestellnr,"Autor/ Herausgeber":"","Titel":"","Verlag":"","Einband":"","Format":"","Gewicht in g":"","Auflage":"","Jahr":"","Empty1":"","Ort":"","Zustand (1-4)":"","Sprachennr.":"","Sprache":"","ISBN":"","EAN":"","Seitenzahl/Umfang":"","Ihr Preis in �":"","zvab-Preis":"","Zustand-zvab":"","Illustrator":"","�bersetzer":"","Vor- oder Nachwort":"","Nachwort":"","weitere Mitwirkende":"","Untertitel":"","Originaltitel":"","aus der Reihe":"","Band":"","Schlagworte":"","Beschreibung":"","Zustandsbeschreibung":"","Lieferungsnr":"","Lieferant":"","Einkaufspreis in �":"","Aufgenommen am:":"","Menge":"","3860400644":"","Zustand-amazon":"","Standort":"","Kommission":"","Sparten-Nr.":"","Spartenbezeichnung":"","Einkaufsdatum":"","MwSt.":"","ebay":"","Notizen":"","Bild":"","alte Bestellnummer":"","ASIN":"","versandkennziffer":"","H�he":"","Breite":"","Tiefe":"","Suche":"","ebay-ID":"","Titel-Autor-anzahl":""}
    
     df = df.to_dict()
     for info in new_meta_dict:
