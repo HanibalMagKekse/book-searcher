@@ -62,7 +62,7 @@ def InputEntered(event = None):
     print(output)
 
 
-    #formated_output = format_data_for_csv(output)
+    output, contributor_list = format_data_for_csv(output)
     df = pd.DataFrame(output)
     
     
@@ -97,7 +97,7 @@ def InputEntered(event = None):
                 myLabels.append(label)
                 reihe += 1
 
-            button = CTkButton(master=frame_results, text="Confirm", command=lambda spalte=spalte: ToCsv(df.loc[spalte]))
+            button = CTkButton(master=frame_results, text="Confirm", command=lambda spalte=spalte: ToCsv(df.loc[spalte], contributor_list[spalte]))
             button.grid(row=reihe,column=spalte,padx=20,pady=5)
             buttons.append(button)
             spalte = spalte + 1
@@ -160,6 +160,7 @@ myButtons.grid(row=2,column=2, pady=20, sticky="ew", columnspan=2)
 def format_data_for_csv(data):
     # should filter different groups out of contributors
     object_counter = 0
+    contributor_list = []
     contributors = {"verfasser": [], "herausgeber": [], "künstler": [], "illustrator": [], "übersetzer": [], "mitwirkende": [], "vorwort": [], "nachwort": [], "adressat": [], "komponist": []}
 
     for object in data:
@@ -195,16 +196,21 @@ def format_data_for_csv(data):
             elif "(Nachwort)" in person:
                 new_string = person.replace("(Nachwort)", "")
                 contributors["nachwort"].append(new_string)
-        data[object_counter]['CONTRIBUTOR'] = str(contributors)
+
+        new_contributors = contributors.copy()
+        for person_type in contributors:
+            print(person_type)
+            if len(contributors[person_type]) == 0:
+                del new_contributors[person_type]
+        data[object_counter]['CONTRIBUTOR'] = str(new_contributors)
+        contributor_list.append(new_contributors)
         object_counter += 1
-    #for person_type in contributors:
-        #if len(person_type) == 0:
-            #del contributors[person_type]
+    
     
     #data = contributors
-    return data
+    return data, contributor_list
 
-def ToCsv(df):
+def ToCsv(df, contributors):
      
     # Open the CSV file 
     with open('export.csv', 'r') as file: 
@@ -221,12 +227,45 @@ def ToCsv(df):
     bestellnr_alt = last_row[0]
     print(f"bestellnr: {bestellnr_alt}")
     try:
-        bestellnr = int(bestellnr_alt) +1
+        if int(bestellnr_alt) < 40000:
+            bestellnr = int(bestellnr_alt) +1
+        else:
+            bestellnr = ""
+            print("bestellnr zu groß")
     except:
         bestellnr = ""
         print("bestellnr not found")
-    #                                                                                            Größe
-    new_meta_dict = {"Bestellnr":bestellnr,"Autor/ Herausgeber":"","Titel":"","Verlag":"","Einband":"","Format":"","Gewicht in g":"","Auflage":"","Jahr":"","Empty1":"","Ort":"","Zustand (1-4)":"","Sprachennr.":"","Sprache":"","ISBN":"","EAN":"","Seitenzahl/Umfang":"","Ihr Preis in �":"","zvab-Preis":"","Zustand-zvab":"","Illustrator":"","�bersetzer":"","Vor- oder Nachwort":"","Nachwort":"","weitere Mitwirkende":"","Untertitel":"","Originaltitel":"","aus der Reihe":"","Band":"","Schlagworte":"","Beschreibung":"","Zustandsbeschreibung":"","Lieferungsnr":"","Lieferant":"","Einkaufspreis in �":"","Aufgenommen am:":"","Menge":"","3860400644":"","Zustand-amazon":"","Standort":"","Kommission":"","Sparten-Nr.":"","Spartenbezeichnung":"","Einkaufsdatum":"","MwSt.":"","ebay":"","Notizen":"","Bild":"","alte Bestellnummer":"","ASIN":"","versandkennziffer":"","H�he":"","Breite":"","Tiefe":"","Suche":"","ebay-ID":"","Titel-Autor-anzahl":""}
+
+    for c_type in contributors:
+        new_string = ""
+        for person in contributors[c_type]:
+            new_string += str(person)
+            new_string += "+ "
+        new_string = new_string[:len(new_string)-2]
+        contributors[c_type] = new_string
+
+    try:
+        illustrator = contributors["illustrator"]
+    except:
+        illustrator = ""
+    try:
+        übersetzer = str(contributors["übersetzer"])
+    except:
+        übersetzer = ""
+    try:
+        vorwort = str(contributors["vorwort"])
+    except:
+        vorwort = ""
+    try:
+        nachwort = str(contributors["nachwort"])
+    except:
+        nachwort = ""
+    try:
+        mitwirkende = str(contributors["mitwirkende"])
+    except:
+        mitwirkende = ""
+    #                                                                                                   Größe
+    new_meta_dict = {"Bestellnr":bestellnr,"Autor/ Herausgeber":"","Titel":"","Verlag":"","Einband":"","Format":"","Gewicht in g":"","Auflage":"","Jahr":"","Empty1":"","Ort":"","Zustand (1-4)":"","Sprachennr.":"","Sprache":"","ISBN":"","EAN":"","Seitenzahl/Umfang":"","Ihr Preis in �":"","zvab-Preis":"","Zustand-zvab":"","Illustrator":illustrator,"�bersetzer":übersetzer,"Vor- oder Nachwort":vorwort,"Nachwort":nachwort,"weitere Mitwirkende":mitwirkende,"Untertitel":"","Originaltitel":"","aus der Reihe":"","Band":"","Schlagworte":"","Beschreibung":"","Zustandsbeschreibung":"","Lieferungsnr":"","Lieferant":"","Einkaufspreis in �":"","Aufgenommen am:":"","Menge":"","3860400644":"","Zustand-amazon":"","Standort":"","Kommission":"","Sparten-Nr.":"","Spartenbezeichnung":"","Einkaufsdatum":"","MwSt.":"","ebay":"","Notizen":"","Bild":"","alte Bestellnummer":"","ASIN":"","versandkennziffer":"","H�he":"","Breite":"","Tiefe":"","Suche":"","ebay-ID":"","Titel-Autor-anzahl":""}
    
     df = df.to_dict()
     for info in new_meta_dict:
