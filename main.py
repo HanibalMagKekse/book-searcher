@@ -25,7 +25,7 @@ def InputEntered(event = None):
 
 
     try:
-        int(input_isbn[0])
+        int(input_isbn[0:8])
         type_input = "isbn"
         print("ISBN: " + input_isbn)
     except:
