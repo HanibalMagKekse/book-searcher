@@ -5,6 +5,8 @@ from lxml import etree
 import pandas as pd
 from customtkinter import *
 import csv
+import ttkbootstrap as tb
+from ttkbootstrap.toast import ToastNotification
 
 infos = list = ["IDN","CREATOR","TITLE","DATE","PUBLISHER","URN","ISBN","TYPE","CONTRIBUTOR"]
 
@@ -278,6 +280,12 @@ def ToCsv(df, contributors):
    
 
     print("Added to csv")
+    toast = ToastNotification(
+        title="Book-Searcher",
+        message="Buch wurde hinzugefügt",
+        duration=2000,
+        alert=TRUE,
+    )
     
     dataframe.to_csv("export.csv", mode = "a", index = False,header=False)
 
