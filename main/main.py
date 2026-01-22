@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup as soup
 import unicodedata
 from lxml import etree
 import pandas as pd
-from customtkinter import *
+from tkinter import *
 import csv
 
 infos = list = ["IDN","CREATOR","TITLE","DATE","PUBLISHER","URN","ISBN","TYPE","CONTRIBUTOR"]
@@ -16,7 +16,7 @@ def InputEntered(event = None):
     for button in buttons:
         button.destroy()
         
-    input_isbn = isbn.get()
+    input_tit_ean = tit_ean.get()
     input_autor = autor.get()
     input_verlag = verlag.get()
     input_erscheinungsjahr = erscheinungsjahr.get()
@@ -25,26 +25,22 @@ def InputEntered(event = None):
 
 
     try:
-        int(input_isbn[0])
-        type_input = "isbn"
-        print("ISBN: " + input_isbn)
+        int(input_tit_ean[0:8])
+        type_input = "ean"
+        print("EAN: " + input_tit_ean)
     except:
         type_input = "titel"
-        print("Titel: " + input_isbn)
+        print("Titel: " + input_tit_ean)
 
-    if type_input == "isbn":
-            records = dnb_sru(f'isbn={input_isbn}')
-    elif type_input == "titel":
-            records = dnb_sru(f'tit={input_isbn}')
-
-    
     # build query string and search
-    if type_input == "isbn":
-        tisbn = "isbn"
+    if type_input == "ean":
+        records = dnb_sru(f'num={input_tit_ean}')
+        tisbn = "num"
     elif type_input == "titel":
+        records = dnb_sru(f'tit={input_tit_ean}')
         tisbn = "tit"
 
-    quInputs = [input_isbn, input_autor, input_verlag, input_erscheinungsjahr, input_sprachencode, input_format] 
+    quInputs = [input_tit_ean, input_autor, input_verlag, input_erscheinungsjahr, input_sprachencode, input_format] 
     quLabels = [tisbn, "atr", "vlg", "jhr", "spr", "mat"]
     queryString = f""
 
@@ -92,58 +88,58 @@ def InputEntered(event = None):
                         if char % 40 == 0:
                             string = string[:40*row_counter] + "\n" + string[40*row_counter:]
                             row_counter += 1
-                label = CTkLabel(master=frame_results,text=info + ": " + string)
+                label = Label(master=frame_results,text=info + ": " + string)
                 label.grid(row=reihe,column=spalte,padx=5,pady=1)
                 myLabels.append(label)
                 reihe += 1
 
-            button = CTkButton(master=frame_results, text="Confirm", command=lambda spalte=spalte: ToCsv(df.loc[spalte], contributor_list[spalte]))
+            button = Button(master=frame_results, text="Confirm", command=lambda spalte=spalte: ToCsv(df.loc[spalte], contributor_list[spalte]))
             button.grid(row=reihe,column=spalte,padx=20,pady=5)
             buttons.append(button)
             spalte = spalte + 1
         
     print(len(records), 'Ergebnisse')
 
-root = CTk()
+root = Tk()
 root.geometry("1000x500")
 root.title("Booksearcher")
 
 
-frame_inputs = CTkFrame(master=root)
+frame_inputs = Frame(master=root)
 frame_inputs.pack(anchor = NW)
 
-frame_results = CTkFrame(master=root)
+frame_results = Frame(master=root)
 frame_results.pack(side = LEFT)
 
 
-label_isbn = CTkLabel(master=frame_inputs,text="ISBN / Titel")
-label_isbn.grid(row=0,column=0, padx=10)
-isbn = CTkEntry(master=frame_inputs)
-isbn.grid(row=1,column=0, padx=10)
+label_tit_ean = Label(master=frame_inputs,text="EAN / Titel")
+label_tit_ean.grid(row=0,column=0, padx=10)
+tit_ean = Entry(master=frame_inputs)
+tit_ean.grid(row=1,column=0, padx=10)
 
-label_autor = CTkLabel(master=frame_inputs,text="Autor")
+label_autor = Label(master=frame_inputs,text="Autor")
 label_autor.grid(row=0,column=1, padx=10)
-autor = CTkEntry(master=frame_inputs)
+autor = Entry(master=frame_inputs)
 autor.grid(row=1,column=1, padx=10)
 
-label_verlag = CTkLabel(master=frame_inputs,text="Verlag")
+label_verlag = Label(master=frame_inputs,text="Verlag")
 label_verlag.grid(row=0,column=2, padx=10)
-verlag = CTkEntry(master=frame_inputs)
+verlag = Entry(master=frame_inputs)
 verlag.grid(row=1,column=2, padx=10)
 
-label_erscheinungsjahr = CTkLabel(master=frame_inputs,text="Erscheinungsjahr")
+label_erscheinungsjahr = Label(master=frame_inputs,text="Erscheinungsjahr")
 label_erscheinungsjahr.grid(row=0,column=3, padx=10)
-erscheinungsjahr = CTkEntry(master=frame_inputs)
+erscheinungsjahr = Entry(master=frame_inputs)
 erscheinungsjahr.grid(row=1,column=3, padx=10)
 
-label_sprachencode = CTkLabel(master=frame_inputs,text="Sprachencode")
+label_sprachencode = Label(master=frame_inputs,text="Sprachencode")
 label_sprachencode.grid(row=0,column=4, padx=10)
-sprachencode = CTkEntry(master=frame_inputs)
+sprachencode = Entry(master=frame_inputs)
 sprachencode.grid(row=1,column=4, padx=10)
 
-label_format = CTkLabel(master=frame_inputs,text="Materialart")
+label_format = Label(master=frame_inputs,text="Materialart")
 label_format.grid(row=0,column=5, padx=10)
-formate = CTkEntry(master=frame_inputs)
+formate = Entry(master=frame_inputs)
 formate.grid(row=1,column=5, padx=10)
 
 myLabels = []
@@ -151,7 +147,7 @@ buttons = []
 
 # binds the return key to InputEntered
 root.bind('<Return>', InputEntered)
-myButtons = CTkButton(master=frame_inputs, text="Enter")
+myButtons = Button(master=frame_inputs, text="Enter")
 
 # binds the button press to InputEntered
 myButtons.bind('<Button-1>', InputEntered)
